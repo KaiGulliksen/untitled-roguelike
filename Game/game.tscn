@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dv60p3q8pfimg"]
+[gd_scene load_steps=19 format=3 uid="uid://dv60p3q8pfimg"]
 
 [ext_resource type="Script" uid="uid://cjrk8fj8cm76w" path="res://Game/game.gd" id="1_bk3v5"]
 [ext_resource type="Script" uid="uid://cfcqjm46qb4yg" path="res://Map/map.gd" id="2_7raqb"]
@@ -10,6 +10,44 @@
 [ext_resource type="Script" uid="uid://yrnrm4i5wgbw" path="res://Map/field_of_view.gd" id="4_fwxkx"]
 [ext_resource type="Script" uid="uid://csnn5k1h5jctt" path="res://GUI/message_log.gd" id="4_jcm6v"]
 [ext_resource type="Script" uid="uid://bcb444rkhd0wp" path="res://Game/EventHandlers/base_input_handler.gd" id="5_glinl"]
+[ext_resource type="Texture2D" uid="uid://bvcq7qrrn88ro" path="res://Assets/monochrome_packed.png" id="10_fsxsm"]
+[ext_resource type="Script" uid="uid://odkwr00s8p2p" path="res://GUI/hp_display.gd" id="11_glinl"]
+[ext_resource type="FontFile" uid="uid://ddpwgy7xygfwx" path="res://Assets/Fonts/SourceCodePro-Regular.ttf" id="12_72g0p"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_glinl"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("10_fsxsm")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+region_rect = Rect2(768, 336, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glinl"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_72g0p"]
+bg_color = Color(2.76752e-06, 0.559168, 5.77569e-07, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4lqr4"]
+font = ExtResource("12_72g0p")
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_72g0p"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("10_fsxsm")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+region_rect = Rect2(768, 336, 16, 16)
 
 [node name="InterfaceRoot" type="Control"]
 layout_mode = 3
@@ -35,11 +73,13 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
+stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer/SubViewportContainer"]
 disable_3d = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
+size = Vector2i(1197, 766)
 render_target_update_mode = 4
 
 [node name="Game" type="Node2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport"]
@@ -84,20 +124,31 @@ size_flags_horizontal = 3
 
 [node name="StatsPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/InfoBar"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_glinl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel"]
 layout_mode = 2
 
 [node name="HpDisplay" type="MarginContainer" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer"]
 layout_mode = 2
+script = ExtResource("11_glinl")
 
 [node name="HpBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_glinl")
+theme_override_styles/fill = SubResource("StyleBoxFlat_72g0p")
+step = 1.0
+show_percentage = false
 
 [node name="HpLabel" type="Label" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay"]
 unique_name_in_owner = true
 layout_mode = 2
+label_settings = SubResource("LabelSettings_4lqr4")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MouseoverLabel" type="Label" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer"]
 layout_mode = 2
@@ -106,6 +157,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
+theme_override_styles/panel = SubResource("StyleBoxTexture_72g0p")
 
 [node name="MessageLog" type="ScrollContainer" parent="VBoxContainer/MessagesPanel"]
 layout_mode = 2
@@ -116,3 +168,5 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[connection signal="player_created" from="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game" to="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay" method="initialize"]

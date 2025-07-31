@@ -24,5 +24,5 @@ func perform() -> bool:
 			MessageLog.send_message("You rest and recover your health.", Color.WHITE)
 			return true
 	
-	
+	MessageLog.send_message("You wait around for a while, doing nothing", Color.WHITE)
 	return true
