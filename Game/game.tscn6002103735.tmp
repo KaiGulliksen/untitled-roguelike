@@ -1,15 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dv60p3q8pfimg"]
+[gd_scene load_steps=6 format=3 uid="uid://dv60p3q8pfimg"]
 
 [ext_resource type="Script" uid="uid://cjrk8fj8cm76w" path="res://Game/game.gd" id="1_bk3v5"]
 [ext_resource type="Script" uid="uid://cfcqjm46qb4yg" path="res://Map/map.gd" id="2_7raqb"]
-[ext_resource type="Script" uid="uid://obd7avvq211e" path="res://Game/EventHandlers/input_handler.gd" id="2_kul4i"]
-[ext_resource type="Script" uid="uid://ik8i2otclefn" path="res://Game/EventHandlers/main_game_input_handler.gd" id="3_7gi1t"]
 [ext_resource type="Script" uid="uid://cxng54g2jq4oc" path="res://Map/dungeon_generator.gd" id="3_jcm6v"]
-[ext_resource type="Script" uid="uid://bjhur70t0ctxt" path="res://Game/EventHandlers/game_over_input_handler.gd" id="4_7gi1t"]
-[ext_resource type="Script" uid="uid://b7xpwe61j6gg2" path="res://Game/EventHandlers/history_viewer_input_handler.gd" id="4_fsxsm"]
 [ext_resource type="Script" uid="uid://yrnrm4i5wgbw" path="res://Map/field_of_view.gd" id="4_fwxkx"]
 [ext_resource type="Script" uid="uid://csnn5k1h5jctt" path="res://GUI/message_log.gd" id="4_jcm6v"]
-[ext_resource type="Script" uid="uid://bcb444rkhd0wp" path="res://Game/EventHandlers/base_input_handler.gd" id="5_glinl"]
 
 [node name="InterfaceRoot" type="Control"]
 layout_mode = 3
@@ -37,30 +32,11 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
 
 [node name="SubViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer/SubViewportContainer"]
-disable_3d = true
-handle_input_locally = false
-canvas_item_default_texture_filter = 0
-render_target_update_mode = 4
 
 [node name="Game" type="Node2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport"]
 script = ExtResource("1_bk3v5")
 
 [node name="InputHandler" type="Node" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game"]
-script = ExtResource("2_kul4i")
-
-[node name="MainGameInputHandler" type="Node" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler"]
-script = ExtResource("3_7gi1t")
-
-[node name="GameOverInputHandler" type="Node" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler"]
-script = ExtResource("4_7gi1t")
-
-[node name="HistoryViewerInputHandler" type="Node" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler"]
-script = ExtResource("4_fsxsm")
-messages_panel_path = NodePath("../../../../../../MessagesPanel")
-message_log_path = NodePath("../../../../../../MessagesPanel/MessageLog")
-
-[node name="DummyInputHandler" type="Node" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game/InputHandler"]
-script = ExtResource("5_glinl")
 
 [node name="Map" type="Node2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game"]
 script = ExtResource("2_7raqb")
@@ -76,30 +52,27 @@ script = ExtResource("4_fwxkx")
 [node name="Entities" type="Node2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game/Map"]
 
 [node name="Camera2D" type="Camera2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game"]
-zoom = Vector2(2, 2)
 
 [node name="InfoBar" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="StatsPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/InfoBar"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer/InfoBar"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/InfoBar/PanelContainer"]
 layout_mode = 2
 
-[node name="HpDisplay" type="MarginContainer" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer"]
+[node name="HpDisplay" type="MarginContainer" parent="VBoxContainer/HBoxContainer/InfoBar/PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HpBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay"]
-unique_name_in_owner = true
+[node name="HpBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer/InfoBar/PanelContainer/VBoxContainer/HpDisplay"]
 layout_mode = 2
 
-[node name="HpLabel" type="Label" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer/HpDisplay"]
-unique_name_in_owner = true
+[node name="HpLabel" type="Label" parent="VBoxContainer/HBoxContainer/InfoBar/PanelContainer/VBoxContainer/HpDisplay"]
 layout_mode = 2
 
-[node name="MouseoverLabel" type="Label" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel/VBoxContainer"]
+[node name="MouseoverLabel" type="Label" parent="VBoxContainer/HBoxContainer/InfoBar/PanelContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="MessagesPanel" type="PanelContainer" parent="VBoxContainer"]
@@ -111,8 +84,7 @@ size_flags_stretch_ratio = 0.3
 layout_mode = 2
 script = ExtResource("4_jcm6v")
 
-[node name="MessageList" type="VBoxContainer" parent="VBoxContainer/MessagesPanel/MessageLog"]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MessagesPanel/MessageLog"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

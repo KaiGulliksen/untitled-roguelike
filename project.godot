@@ -11,5 +11,15 @@ config_version=5
 [application]
 
 config/name="Untitled RogueLike"
+run/main_scene="uid://dv60p3q8pfimg"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SignalBus="*res://Utils/signal_bus.gd"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=1000
