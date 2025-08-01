@@ -1,3 +1,7 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://byougm1pvndgq"]
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://byougm1pvndgq"]
+
+[ext_resource type="FontFile" uid="uid://ddpwgy7xygfwx" path="res://Assets/Fonts/SourceCodePro-Regular.ttf" id="1_lr18d"]
 
 [resource]
+font = ExtResource("1_lr18d")
+font_size = 20
