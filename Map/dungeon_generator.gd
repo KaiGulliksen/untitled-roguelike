@@ -3,6 +3,7 @@ extends Node
 
 const entity_types = {
 	# Add your entity types here
+	"zombie": preload("res://Assets/Definitions/Actors/entity_definition_zombie.tres"),
 }
 
 @export_category("Map Dimentions")
@@ -67,22 +68,23 @@ func _place_all_entities(dungeon: MapData, rooms: Array):
 
 
 func _place_entities(dungeon: MapData, room: Rect2i) -> void:
-	# This is just an example of how you could place monsters and items in rooms
-	# You will need to have your entity scenes defined in the `entity_types` dictionary
-	
-	# Place Monsters
 	var monster_count = _rng.randi_range(0, max_monsters_per_room)
+	
 	for _i in monster_count:
-		var pos = Vector2i(
-			_rng.randi_range(room.position.x, room.position.x + room.size.x - 1),
-			_rng.randi_range(room.position.y, room.position.y + room.size.y - 1)
-		)
-		# Add monster spawning logic here, e.g.:
-		# var monster_type = entity_types.values().pick_random()
-		# var monster = monster_type.instantiate()
-		# monster.grid_position = pos
-		# dungeon.entities.append(monster)
-		pass
+		var x: int = _rng.randi_range(room.position.x, room.position.x + room.size.x - 1)
+		var y: int = _rng.randi_range(room.position.y, room.position.y + room.size.y - 1)
+		var new_entity_position := Vector2i(x, y)
+		
+		var can_place = true
+		for entity in dungeon.entities:
+			if entity.grid_position == new_entity_position:
+				can_place = false
+				break
+		
+		if can_place:
+			if _rng.randf() < 0.8:
+				var new_entity = Entity.new(dungeon, new_entity_position, entity_types.zombie)
+				dungeon.entities.append(new_entity)
 
 	# Place Items
 	var item_count = _rng.randi_range(0, max_items_per_room)

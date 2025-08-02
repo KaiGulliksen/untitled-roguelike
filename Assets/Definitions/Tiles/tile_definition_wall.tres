@@ -10,7 +10,7 @@ region = Rect2(176, 288, 16, 16)
 [resource]
 script = ExtResource("1_ss6md")
 texture = SubResource("AtlasTexture_ndtuj")
-color_lit = Color(1, 1, 1, 1)
+color_lit = Color(0.331854, 0.582028, 0.59417, 1)
 color_dark = Color(0.262745, 0.262745, 0.262745, 1)
 is_walkable = false
 is_transparent = false
