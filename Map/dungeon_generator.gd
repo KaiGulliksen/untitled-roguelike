@@ -24,6 +24,10 @@ func _ready() -> void:
 
 func _carve_tile(dungeon: MapData, x: int, y: int) -> void:
 	var tile_position = Vector2i(x, y)
+	# Add bounds check
+	if not dungeon.is_in_bounds(tile_position):
+		return
+		
 	var tile: Tile = dungeon.get_tile(tile_position)
 	if tile:
 		tile.set_tile_type(dungeon.tile_types.floor)
@@ -38,7 +42,8 @@ func generate_dungeon(player: Entity) -> MapData:
 	var floor_tiles: Array[Vector2i] = []
 	for pos in floor_tiles_vector2:
 		var pos_int = Vector2i(pos)
-		if not floor_tiles.has(pos_int):
+		# Add bounds check before adding to floor tiles
+		if dungeon.is_in_bounds(pos_int) and not floor_tiles.has(pos_int):
 			floor_tiles.append(pos_int)
 
 	for tile_pos in floor_tiles:
@@ -63,7 +68,14 @@ func generate_dungeon(player: Entity) -> MapData:
 
 func _place_all_entities(dungeon: MapData, rooms: Array):
 	for room in rooms:
+		# Ensure room is within bounds
 		var room_rect = Rect2i(room.position, room.size)
+		# Clamp room to map bounds
+		room_rect.position.x = max(0, room_rect.position.x)
+		room_rect.position.y = max(0, room_rect.position.y)
+		room_rect.size.x = min(room_rect.size.x, map_width - room_rect.position.x)
+		room_rect.size.y = min(room_rect.size.y, map_height - room_rect.position.y)
+		
 		_place_entities(dungeon, room_rect)
 
 
@@ -74,6 +86,10 @@ func _place_entities(dungeon: MapData, room: Rect2i) -> void:
 		var x: int = _rng.randi_range(room.position.x, room.position.x + room.size.x - 1)
 		var y: int = _rng.randi_range(room.position.y, room.position.y + room.size.y - 1)
 		var new_entity_position := Vector2i(x, y)
+		
+		# Additional bounds check
+		if not dungeon.is_in_bounds(new_entity_position):
+			continue
 		
 		var can_place = true
 		for entity in dungeon.entities:
@@ -93,6 +109,9 @@ func _place_entities(dungeon: MapData, room: Rect2i) -> void:
 			_rng.randi_range(room.position.x, room.position.x + room.size.x - 1),
 			_rng.randi_range(room.position.y, room.position.y + room.size.y - 1)
 		)
+		# Additional bounds check
+		if not dungeon.is_in_bounds(pos):
+			continue
 		# Add item spawning logic here
 		pass
 

@@ -27,7 +27,22 @@ func _place_entities() -> void:
 		entities.add_child(entity)
 
 func update_fov(player_position: Vector2i) -> void:
+	# Add safety check for map_data
+	if not map_data:
+		push_error("update_fov called before map_data is initialized")
+		return
+		
 	field_of_view.update_fov(map_data, player_position, fov_radius)
 	
+	# Update entity visibility with null checks
 	for entity in map_data.entities:
-		entity.visible = map_data.get_tile(entity.grid_position).is_in_view
+		if not entity:
+			continue
+			
+		var tile = map_data.get_tile(entity.grid_position)
+		if tile:
+			entity.visible = tile.is_in_view
+		else:
+			# Entity is out of bounds or on invalid tile
+			entity.visible = false
+			push_warning("Entity at invalid position: " + str(entity.grid_position))

@@ -14,15 +14,20 @@ var _fov: Array[Tile] = []
 func update_fov(map_data: MapData, origin: Vector2i, radius: int) -> void:
 	_clear_fov()
 	var start_tile: Tile = map_data.get_tile(origin)
-	start_tile.is_in_view = true
-	_fov = [start_tile]
+	if start_tile:  # Add null check here too
+		start_tile.is_in_view = true
+		_fov = [start_tile]
+	else:
+		_fov = []
+	
 	for i in 8:
 		_cast_light(map_data, origin.x, origin.y, radius, 1, 1.0, 0.0, multipliers[0][i], multipliers[1][i], multipliers[2][i], multipliers[3][i])
 
 
 func _clear_fov() -> void:
 	for tile in _fov:
-		tile.is_in_view = false
+		if tile:  # Add null check
+			tile.is_in_view = false
 	_fov = []
 
 
@@ -48,8 +53,16 @@ func _cast_light(map_data: MapData, x: int, y: int, radius: int, row: int, start
 			var ay: int = y + say
 			if ax >= map_data.width or ay >= map_data.height:
 				continue
-			var radius2: int = radius * radius
+			
+			# Add proper bounds checking and null checking
+			if ax < 0 or ay < 0:
+				continue
+				
 			var current_tile: Tile = map_data.get_tile_xy(ax, ay)
+			if not current_tile:  # Check if tile is null
+				continue
+				
+			var radius2: int = radius * radius
 			if (dx * dx + dy * dy) < radius2:
 				current_tile.is_in_view = true
 				_fov.append(current_tile)
