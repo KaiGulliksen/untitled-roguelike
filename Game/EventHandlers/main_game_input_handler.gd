@@ -32,6 +32,9 @@ func get_action(player: Entity) -> Action:
 	#if Input.is_action_just_pressed("look"):
 		#await get_grid_position(player, 0)
 		
+	if Input.is_action_just_pressed("decend"):
+		action = EnterPortalAction.new(player)
+		
 	if Input.is_action_just_pressed("view_history"):
 		get_parent().transition_to(InputHandler.InputHandlers.HISTORY_VIEWER)
 	
