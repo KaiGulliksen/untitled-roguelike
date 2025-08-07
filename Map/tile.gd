@@ -32,3 +32,6 @@ func is_walkable() -> bool:
 	
 func is_transparent() -> bool:
 	return _definition.is_transparent
+	
+func is_portal() -> bool:
+	return _definition.is_portal

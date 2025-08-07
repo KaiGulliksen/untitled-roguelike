@@ -69,17 +69,18 @@ func _load_tiles_from_tilemap() -> void:
 				# Check for custom data first
 				var tile_type = tile_data.get_custom_data("tile_type")
 				var is_walkable = tile_data.get_custom_data("is_walkable")
+				var is_portal = tile_data.get_custom_data("is_portal")
 				
-				if tile_type == "floor" or is_walkable == true:
+				if is_portal:
+					tile.set_tile_type(map_data.tile_types.portal)
+				elif tile_type == "floor" or is_walkable == true:
 					tile.set_tile_type(map_data.tile_types.floor)
-				elif tile_type == "wall" or is_walkable == false:
-					tile.set_tile_type(map_data.tile_types.wall)
 				else:
 					# Fallback: assume walls for placed tiles
 					tile.set_tile_type(map_data.tile_types.wall)
 			else:
-				# No tile placed = floor
-				tile.set_tile_type(map_data.tile_types.floor)
+				# No tile placed = wall
+				tile.set_tile_type(map_data.tile_types.wall)
 
 func _place_entities() -> void:
 	for entity in map_data.entities:

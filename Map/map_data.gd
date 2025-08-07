@@ -6,6 +6,7 @@ signal entity_placed(entity)
 const tile_types = {
 	"floor": preload("res://Assets/Definitions/Tiles/tile_definition_floor.tres"),
 	"wall": preload("res://Assets/Definitions/Tiles/tile_definition_wall.tres"),
+	"portal": preload("res://Assets/Definitions/Tiles/tile_definition_portal.tres"),
 	}
 
 const entity_pathfinding_weight = 10.0
@@ -15,6 +16,7 @@ var height: int
 var tiles: Array[Tile]
 var entities: Array[Entity]
 var player: Entity
+var portal_location: TileDefinition
 var pathfinder: AStarGrid2D
 
 

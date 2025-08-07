@@ -14,4 +14,5 @@ color_lit = Color(0.331854, 0.582028, 0.59417, 1)
 color_dark = Color(0.262745, 0.262745, 0.262745, 1)
 is_walkable = false
 is_transparent = false
+is_portal = false
 metadata/_custom_type_script = "uid://frmr0q5s64ir"
