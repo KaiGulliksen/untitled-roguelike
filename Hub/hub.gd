@@ -10,9 +10,11 @@ var map_data: MapData
 
 @onready var tile_map_layer: TileMapLayer = $TileMapLayer
 @onready var entities: Node2D = $Entities
+@onready var map: Node2D = $"../Map"
 @onready var field_of_view: FieldOfView = $FieldOfView if has_node("FieldOfView") else preload("res://Map/field_of_view.gd").new()
 
 func _ready() -> void:
+	SignalBus.enter_portal.connect(enter_portal)
 	# Add FieldOfView node if it doesn't exist
 	if not has_node("FieldOfView"):
 		field_of_view = preload("res://Map/field_of_view.gd").new()
@@ -121,3 +123,13 @@ func remove_entity(entity: Entity) -> void:
 	map_data.entities.erase(entity)
 	if entity.get_parent() == entities:
 		entities.remove_child(entity)
+
+func enter_portal() -> void:
+	var player: Entity = map_data.player
+	entities.remove_child(player)
+	for entity in entities.get_children():
+		entity.queue_free()
+	map.generate(player)
+	player.get_node("Camera2D").make_current()
+	field_of_view.reset_fov()
+	update_fov(player.grid_position)

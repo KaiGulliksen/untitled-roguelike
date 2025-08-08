@@ -30,6 +30,8 @@ func _clear_fov() -> void:
 			tile.is_in_view = false
 	_fov = []
 
+func reset_fov() -> void:
+	_fov = []
 
 func _cast_light(map_data: MapData, x: int, y: int, radius: int, row: int, start_slope: float, end_slope: float, xx: int, xy: int, yx: int, yy: int) -> void:
 	if start_slope < end_slope:
