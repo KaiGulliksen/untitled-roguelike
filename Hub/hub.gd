@@ -126,10 +126,10 @@ func remove_entity(entity: Entity) -> void:
 
 func enter_portal() -> void:
 	var player: Entity = map_data.player
-	entities.remove_child(player)
+	if player and player.get_parent() == entities:
+		entities.remove_child(player)
+
 	for entity in entities.get_children():
 		entity.queue_free()
-	map.generate(player)
-	player.get_node("Camera2D").make_current()
-	field_of_view.reset_fov()
-	update_fov(player.grid_position)
+
+	# The rest of the logic will be handled by game.gd

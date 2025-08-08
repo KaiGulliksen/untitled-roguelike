@@ -32,6 +32,8 @@ func _ready() -> void:
 	).call_deferred()
 	camera.make_current.call_deferred()
 
+	SignalBus.enter_portal.connect(_enter_dungeon)
+
 func _enter_hub() -> void:
 	current_state = GameState.HUB
 	current_location = hub
@@ -44,17 +46,23 @@ func _enter_hub() -> void:
 	hub.new(player)
 
 func _enter_dungeon() -> void:
+	if current_state == GameState.DUNGEON:
+		return  # Already in the dungeon
+
 	current_state = GameState.DUNGEON
 	current_location = map
-	
-	# Hide hub, show map
+
 	hub.visible = false
 	map.visible = true
+
+	# Ensure player has a valid parent before removing
+	if player.get_parent():
+		player.get_parent().remove_child(player)
 	
-	# Generate dungeon
+	map.add_child(player)
 	map.generate(player)
 	map.update_fov(player.grid_position)
-	
+
 	MessageLog.send_message.bind(
 		"You enter the dangerous dungeon!",
 		GameColors.WELCOME_TEXT
@@ -74,10 +82,11 @@ func _physics_process(_delta: float) -> void:
 				map.update_fov(player.grid_position)
 
 func _handle_enemy_turns() -> void:
-	for entity in get_map_data().entities:
-		if entity.is_alive() and entity != player:
-			if entity.has("ai_component") and entity.ai_component:
-				entity.ai_component.perform()
+	# Iterate over a copy, as the entities array might change during a turn.
+	for entity in get_map_data().entities.duplicate():
+		# The is_alive() check is all we need.
+		if entity and entity != player and entity.is_alive():
+			entity.ai_component.perform()
 
 func get_map_data() -> MapData:
 	if current_state == GameState.HUB:

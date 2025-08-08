@@ -14,10 +14,19 @@ var map_data: MapData
 
 
 func generate(player: Entity) -> void:
-	map_data = dungeon_generator.generate_dungeon(player)
+	# Set the map_data for the player first
+	player.map_data = dungeon_generator.generate_dungeon(player)
+	self.map_data = player.map_data
+	
 	map_data.entity_placed.connect(entities.add_child)
 	_place_tiles()
 	_place_entities()
+
+	# Ensure the player is in the entities node
+	if not player.is_inside_tree():
+		entities.add_child(player)
+	
+	update_fov(player.grid_position)
 	
 func _place_tiles() -> void:
 	for tile in map_data.tiles:
