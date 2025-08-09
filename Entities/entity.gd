@@ -16,6 +16,7 @@ var map_data: MapData
 
 var fighter_component: FighterComponent
 var ai_component: BaseAIComponent
+var inventory_component: InventoryComponent
 
 
 var grid_position: Vector2i:
