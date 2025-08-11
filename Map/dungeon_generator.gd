@@ -98,7 +98,7 @@ func _place_entities(dungeon: MapData, room: Rect2i) -> void:
 				break
 		
 		if can_place:
-			if _rng.randf() < 0.8:
+			if _rng.randf() < 0.5:
 				var new_entity = Entity.new(dungeon, new_entity_position, entity_types.zombie)
 				dungeon.entities.append(new_entity)
 
