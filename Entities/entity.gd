@@ -57,6 +57,11 @@ func set_entity_type(entity_definition: EntityDefinition) -> void:
 		if entity_definition.consumable_definition is HealingConsumableComponentDefinition:
 			consumable_component = HealingConsumableComponent.new(entity_definition.consumable_definition)
 			add_child(consumable_component)
+	
+	if entity_definition.inventory_capacity > 0:
+		inventory_component = InventoryComponent.new()
+		inventory_component.capacity = entity_definition.inventory_capacity
+		add_child(inventory_component)
 		
 func is_blocking_movement() -> bool:
 	return blocks_movement

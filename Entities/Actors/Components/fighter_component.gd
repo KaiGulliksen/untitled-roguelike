@@ -47,7 +47,7 @@ func take_damage(amount: int) -> void:
 func die() -> void:
 	var death_message: String
 	var death_message_color: Color
-
+	
 	if get_map_data().player == entity:
 		death_message = "You died!"
 		death_message_color = GameColors.PLAYER_DIE
@@ -55,18 +55,35 @@ func die() -> void:
 	else:
 		death_message = "%s is dead!" % entity.get_entity_name()
 		death_message_color = GameColors.ENEMY_DIE
-		
-
+		# Handle item drops
+		_handle_drops()
+	
 	MessageLog.send_message(death_message, death_message_color)
 	entity.texture = death_texture
 	entity.modulate = death_color
-	
-	# Add this check to safely handle entities without an AI
-	if entity.ai_component:
-		entity.ai_component.queue_free()
-		entity.ai_component = null
-		
+	entity.ai_component.queue_free()
+	entity.ai_component = null
 	entity.entity_name = "Remains of %s" % entity.entity_name
 	entity.blocks_movement = false
 	entity.type = Entity.EntityType.CORPSE
 	get_map_data().unregister_blocking_entity(entity)
+
+func _handle_drops() -> void:
+	if entity._definition == null or entity._definition.drop_table == null:
+		return
+	
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	
+	var drops = entity._definition.drop_table.get_drops(rng)
+	var map_data = get_map_data()
+	
+	for item_definition in drops:
+		# Create the dropped item at the entity's position
+		var dropped_item = Entity.new(map_data, entity.grid_position, item_definition)
+		map_data.entities.append(dropped_item)
+		# Emit the signal to add the item to the scene
+		map_data.entity_placed.emit(dropped_item)
+		
+		var item_message = "%s dropped %s!" % [entity.get_entity_name(), item_definition.name]
+		MessageLog.send_message(item_message, Color.YELLOW)
