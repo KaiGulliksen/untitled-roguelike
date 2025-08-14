@@ -55,6 +55,7 @@ func die() -> void:
 	else:
 		death_message = "%s is dead!" % entity.get_entity_name()
 		death_message_color = GameColors.ENEMY_DIE
+		
 
 	MessageLog.send_message(death_message, death_message_color)
 	entity.texture = death_texture

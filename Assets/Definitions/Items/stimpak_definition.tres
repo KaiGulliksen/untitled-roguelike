@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=6 format=3 uid="uid://cfsn6jq1cedxt"]
+
+[ext_resource type="Script" uid="uid://bbckf873gov3" path="res://Entities/entity_definition.gd" id="1_628s4"]
+[ext_resource type="Script" uid="uid://bfhm172pog6rd" path="res://Entities/Actors/Components/ComponentDefinitions/healing_consumable_component_definition.gd" id="1_r4q4a"]
+[ext_resource type="Texture2D" uid="uid://dlcwn1idljktk" path="res://Assets/URLTileSet.png" id="3_d80gr"]
+
+[sub_resource type="Resource" id="Resource_d80gr"]
+script = ExtResource("1_r4q4a")
+healing_amount = 8
+metadata/_custom_type_script = "uid://bfhm172pog6rd"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ll6r"]
+atlas = ExtResource("3_d80gr")
+region = Rect2(240, 240, 16, 16)
+
+[resource]
+script = ExtResource("1_628s4")
+name = "Stimpak"
+texture = SubResource("AtlasTexture_1ll6r")
+color = Color(1, 1, 1, 1)
+is_blocking_movement = true
+type = 2
+ai_type = 0
+consumable_definition = SubResource("Resource_d80gr")
+inventory_capacity = 0
+metadata/_custom_type_script = "uid://bbckf873gov3"
