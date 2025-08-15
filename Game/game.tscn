@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://dv60p3q8pfimg"]
+[gd_scene load_steps=22 format=4 uid="uid://dv60p3q8pfimg"]
 
 [ext_resource type="Script" uid="uid://cjrk8fj8cm76w" path="res://Game/game.gd" id="1_bk3v5"]
 [ext_resource type="Script" uid="uid://cfcqjm46qb4yg" path="res://Map/map.gd" id="2_7raqb"]
@@ -12,9 +12,9 @@
 [ext_resource type="Script" uid="uid://bcb444rkhd0wp" path="res://Game/EventHandlers/base_input_handler.gd" id="5_glinl"]
 [ext_resource type="Script" uid="uid://dabupgt7cp201" path="res://Hub/hub.gd" id="7_qlwvw"]
 [ext_resource type="Texture2D" uid="uid://dgfoye5ul42n1" path="res://Assets/colored_packed.png" id="8_rpdke"]
-[ext_resource type="Texture2D" uid="uid://bvcq7qrrn88ro" path="res://Assets/monochrome_packed.png" id="10_fsxsm"]
 [ext_resource type="Script" uid="uid://odkwr00s8p2p" path="res://GUI/hp_display.gd" id="11_glinl"]
 [ext_resource type="FontFile" uid="uid://ddpwgy7xygfwx" path="res://Assets/Fonts/SourceCodePro-Regular.ttf" id="12_72g0p"]
+[ext_resource type="Texture2D" uid="uid://dlcwn1idljktk" path="res://Assets/URLTileSet.png" id="15_rpdke"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_33n3b"]
 texture = ExtResource("8_rpdke")
@@ -1129,17 +1129,17 @@ custom_data_layer_3/name = "is_portal"
 custom_data_layer_3/type = 1
 sources/0 = SubResource("TileSetAtlasSource_33n3b")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_glinl"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_fsxsm")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_72g0p"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+texture = ExtResource("15_rpdke")
 texture_margin_left = 5.0
 texture_margin_top = 5.0
 texture_margin_right = 5.0
 texture_margin_bottom = 5.0
-region_rect = Rect2(768, 336, 16, 16)
+region_rect = Rect2(0, 240, 16, 16)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glinl"]
 bg_color = Color(1, 0, 0, 1)
@@ -1151,18 +1151,6 @@ bg_color = Color(2.76752e-06, 0.559168, 5.77569e-07, 1)
 font = ExtResource("12_72g0p")
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_72g0p"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-texture = ExtResource("10_fsxsm")
-texture_margin_left = 5.0
-texture_margin_top = 5.0
-texture_margin_right = 5.0
-texture_margin_bottom = 5.0
-region_rect = Rect2(768, 336, 16, 16)
 
 [node name="InterfaceRoot" type="Control"]
 layout_mode = 3
@@ -1247,7 +1235,7 @@ size_flags_horizontal = 3
 [node name="StatsPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/InfoBar"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxTexture_glinl")
+theme_override_styles/panel = SubResource("StyleBoxTexture_72g0p")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/InfoBar/StatsPanel"]
 layout_mode = 2
