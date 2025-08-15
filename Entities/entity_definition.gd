@@ -14,6 +14,7 @@ extends Resource
 @export var fighter_definition: FighterComponentDefinition
 @export var ai_type: Entity.AIType
 @export var consumable_definition: ConsumableComponentDefinition
+@export var currency_definition: CurrencyComponentDefinition
 @export var inventory_capacity: int = 0
 
 @export_category("Drops")

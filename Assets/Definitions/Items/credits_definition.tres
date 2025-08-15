@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EntityDefinition" load_steps=6 format=3 uid="uid://smg4xcgxgu1a"]
+
+[ext_resource type="Script" uid="uid://p6jeik5skvr2" path="res://Entities/Actors/Components/ComponentDefinitions/currency_component_definition.gd" id="1_rfhp1"]
+[ext_resource type="Script" uid="uid://bbckf873gov3" path="res://Entities/entity_definition.gd" id="1_tpmsu"]
+[ext_resource type="Texture2D" uid="uid://dlcwn1idljktk" path="res://Assets/URLTileSet.png" id="3_gn6hh"]
+
+[sub_resource type="Resource" id="Resource_el3dx"]
+script = ExtResource("1_rfhp1")
+metadata/_custom_type_script = "uid://p6jeik5skvr2"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06fek"]
+atlas = ExtResource("3_gn6hh")
+region = Rect2(240, 224, 16, 16)
+
+[resource]
+script = ExtResource("1_tpmsu")
+name = "Credits"
+texture = SubResource("AtlasTexture_06fek")
+color = Color(1, 1, 1, 1)
+is_blocking_movement = false
+type = 1
+ai_type = 0
+currency_definition = SubResource("Resource_el3dx")
+inventory_capacity = 0
+metadata/_custom_type_script = "uid://bbckf873gov3"

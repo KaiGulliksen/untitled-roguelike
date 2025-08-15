@@ -19,5 +19,5 @@ func perform() -> bool:
 			)
 			return true
 			
-	MessageLog.send_message(" There is nothing here to pick up.", GameColors.IMPOSSIBLE)
+	MessageLog.send_message("There is nothing here to pick up.", GameColors.IMPOSSIBLE)
 	return false
