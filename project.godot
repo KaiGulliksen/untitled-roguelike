@@ -23,7 +23,6 @@ SignalBus="*res://Utils/signal_bus.gd"
 
 window/size/viewport_width=1600
 window/size/viewport_height=1000
-window/stretch/scale=1.2
 
 [input]
 
