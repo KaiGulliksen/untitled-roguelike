@@ -11,7 +11,7 @@ const directions = {
 	"ui_downright": Vector2i.DOWN + Vector2i.RIGHT,
 }
 
-#const inventory_menu_scene = preload("res://GUI/InventoryMenu/inventory_menu.tscn")
+const inventory_menu_scene = preload("res://GUI/Inventory/inventory_menu.tscn")
 
 #@export var reticle: Reticle
 
@@ -45,8 +45,8 @@ func get_action(player: Entity) -> Action:
 		#var selected_item: Entity = await get_item("Select an item to drop", player.inventory_component)
 		#action = DropItemAction.new(player, selected_item)
 		
-	#if Input.is_action_just_pressed("activate"):
-		#action = await activate_item(player)
+	if Input.is_action_just_pressed("inventory"):
+		await show_inventory(player)
 	
 	if Input.is_action_just_pressed("quit"):
 		action = EscapeAction.new(player)
@@ -85,3 +85,21 @@ func get_action(player: Entity) -> Action:
 	#await get_tree().physics_frame
 	#get_parent().call_deferred("transition_to", InputHandler.InputHandlers.MAIN_GAME)
 	#return selected_position
+
+func show_inventory(player: Entity) -> void:
+	var inventory_menu: InventoryMenu = inventory_menu_scene.instantiate()
+	var ui_layer = get_viewport()
+	ui_layer.add_child(inventory_menu)
+	inventory_menu.build("Inventory", player.inventory_component)
+	
+	# Transition to dummy handler while menu is open
+	get_parent().transition_to(InputHandler.InputHandlers.DUMMY)
+	
+	# Wait for menu to close
+	await inventory_menu.menu_closed
+	
+	# Small delay to prevent input bleeding through
+	await get_tree().process_frame
+	
+	# Return to main game handler
+	get_parent().call_deferred("transition_to", InputHandler.InputHandlers.MAIN_GAME)

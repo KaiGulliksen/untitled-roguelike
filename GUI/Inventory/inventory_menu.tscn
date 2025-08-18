@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3 uid="uid://cfpldl6ufj64s"]
+
+[ext_resource type="Texture2D" uid="uid://dlcwn1idljktk" path="res://Assets/URLTileSet.png" id="1_24gyq"]
+[ext_resource type="Script" uid="uid://dy8na8xr0l3g5" path="res://GUI/Inventory/inventory_menu.gd" id="1_glqyj"]
+[ext_resource type="FontFile" uid="uid://ddpwgy7xygfwx" path="res://Assets/Fonts/SourceCodePro-Regular.ttf" id="2_glqyj"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_82lyt"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("1_24gyq")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+region_rect = Rect2(0, 240, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_p80m4"]
+font = ExtResource("2_glqyj")
+font_size = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_dcq6d"]
+font = ExtResource("2_glqyj")
+font_size = 22
+
+[node name="InventoryMenu" type="CanvasLayer"]
+script = ExtResource("1_glqyj")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_82lyt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Equipment"
+label_settings = SubResource("LabelSettings_p80m4")
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_82lyt")
+
+[node name="InventoryContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/InventoryContainer"]
+layout_mode = 2
+text = "Inventory"
+label_settings = SubResource("LabelSettings_dcq6d")
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="HBoxContainer/PanelContainer/InventoryContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/InventoryContainer"]
+layout_mode = 2
+
+[node name="InventoryList" type="VBoxContainer" parent="HBoxContainer/PanelContainer/InventoryContainer"]
+layout_mode = 2
