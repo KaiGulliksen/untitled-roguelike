@@ -35,46 +35,59 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_82lyt")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer"]
 layout_mode = 2
 text = "Equipment"
 label_settings = SubResource("LabelSettings_p80m4")
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_82lyt")
 
-[node name="InventoryContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+[node name="InventoryContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/InventoryContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
 layout_mode = 2
 text = "Inventory"
 label_settings = SubResource("LabelSettings_dcq6d")
 horizontal_alignment = 1
 
-[node name="TitleLabel" type="Label" parent="HBoxContainer/PanelContainer/InventoryContainer"]
+[node name="TitleLabel" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/InventoryContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
 layout_mode = 2
 
-[node name="InventoryList" type="VBoxContainer" parent="HBoxContainer/PanelContainer/InventoryContainer"]
+[node name="InventoryList" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.509286, 0.509286, 0.509286, 1)
+theme_override_fonts/font = ExtResource("2_glqyj")
+theme_override_font_sizes/font_size = 18
+text = "Press ESC to close"
+horizontal_alignment = 2
+vertical_alignment = 1
