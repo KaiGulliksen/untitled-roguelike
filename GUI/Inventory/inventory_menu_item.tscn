@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://clmq04shxcl4o"]
-
-[node name="InventoryMenuItem" type="Button"]
-offset_right = 8.0
-offset_bottom = 8.0

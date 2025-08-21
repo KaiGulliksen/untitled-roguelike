@@ -4,7 +4,7 @@ extends CanvasLayer
 signal menu_closed
 signal item_selected
 
-const inventory_menu_item_scene := preload("res://GUI/Inventory/inventory_menu_item.tscn")
+const inventory_menu_item_scene := preload("res://GUI/Inventory/item_slot.tscn")
 
 @onready var inventory_list: VBoxContainer = $"%InventoryList"
 @onready var inventory_item_label: Label = $"%InventoryItemLabel"
@@ -45,7 +45,7 @@ func build(window_title: String, inventory_component: InventoryComponent) -> voi
 		inventory_list.add_child(item_slot)
 		
 		# Configure the slot
-		_setup_item_slot(first_item, quantity, slot_index)
+		_setup_item_slot(item_slot, first_item, quantity, slot_index)
 		
 		# Store reference for all items of this type
 		for item in items_of_type:
@@ -60,9 +60,9 @@ func build(window_title: String, inventory_component: InventoryComponent) -> voi
 		empty_label.modulate = Color(0.7, 0.7, 0.7)
 		inventory_list.add_child(empty_label)
 
-func _setup_item_slot(item: Entity, quantity: int, index: int) -> void:
-	var name_label = get_node("%InventoryItemLabel")
-	var quantity_label = get_node("%QuantityLabel")
+func _setup_item_slot(slot: PanelContainer, item: Entity, quantity: int, index: int) -> void:
+	var name_label = slot.get_node("%ItemNameLabel")
+	var quantity_label = slot.get_node("%ItemQuantLabel")
 	
 	# Add index letter for keyboard selection
 	var letter = char(97 + index) # 'a', 'b', 'c', etc.
