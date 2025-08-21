@@ -51,7 +51,7 @@ func build(window_title: String, inventory_component: InventoryComponent) -> voi
 		inventory_list.add_child(item_slot)
 		
 		# Configure the slot
-		_setup_item_slot(item_slot, first_item, quantity, slot_index)
+		_setup_item_slot(item_slot, first_item, quantity, slot_index, items_of_type)
 		
 		# Store reference
 		item_slots.append(item_slot)
@@ -69,9 +69,10 @@ func build(window_title: String, inventory_component: InventoryComponent) -> voi
 		# Highlight first item
 		_update_selection()
 
-func _setup_item_slot(slot: PanelContainer, item: Entity, quantity: int, index: int) -> void:
+func _setup_item_slot(slot: PanelContainer, item: Entity, quantity: int, index: int, items_of_type: Array) -> void:
 	var name_label = slot.get_node("%ItemNameLabel")
 	var quantity_label = slot.get_node("%ItemQuantLabel")
+	var weight_label = slot.get_node("%ItemWeightLabel")
 	
 	# Add index letter for keyboard selection
 	var letter = char(97 + index) # 'a', 'b', 'c', etc.
@@ -84,6 +85,14 @@ func _setup_item_slot(slot: PanelContainer, item: Entity, quantity: int, index: 
 	else:
 		quantity_label.visible = false
 	
+	# Calculate and display total weight
+	var total_weight = _calculate_total_weight(items_of_type)
+	if total_weight > 0:
+		weight_label.text = "%.1f kg" % total_weight
+		weight_label.visible = true
+	else:
+		weight_label.visible = false
+	
 	# Add hover effect
 	slot.mouse_entered.connect(_on_slot_hover.bind(slot, true))
 	slot.mouse_exited.connect(_on_slot_hover.bind(slot, false))
@@ -92,8 +101,15 @@ func _setup_item_slot(slot: PanelContainer, item: Entity, quantity: int, index: 
 	#slot.gui_input.connect(_on_slot_input.bind(item))
 	
 	# Store item reference in slot
-	set_meta("item", item)
-	set_meta("index", index)
+	slot.set_meta("item", item)
+	slot.set_meta("index", index)
+
+func _calculate_total_weight(items: Array) -> float:
+	var total_weight = 0.0
+	for item in items:
+		if item._definition and item._definition.item_definition:
+			total_weight += item._definition.item_definition.weight
+	return total_weight
 
 func _update_selection() -> void:
 	# Clear all highlights

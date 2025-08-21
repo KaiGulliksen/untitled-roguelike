@@ -19,7 +19,7 @@ func _ready() -> void:
 	# Optional: Add visual feedback styles
 	#_setup_styles()
 
-func setup(item: Entity, quantity: int, index: int) -> void:
+func setup(item: Entity, quantity: int, index: int, total_weight: float = 0.0) -> void:
 	self.item = item
 	self.quantity = quantity
 	self.slot_index = index
@@ -33,6 +33,14 @@ func setup(item: Entity, quantity: int, index: int) -> void:
 		quantity_label.visible = true
 	else:
 		quantity_label.visible = false
+	
+	# Display weight if it exists
+	if total_weight > 0:
+		weight_label.text = "%.1f kg" % total_weight
+		weight_label.visible = true
+		weight_label.modulate = Color(0.8, 0.8, 0.8)  # Slightly gray color for weight
+	else:
+		weight_label.visible = false
 
 func _setup_styles() -> void:
 	# You can customize the appearance here
