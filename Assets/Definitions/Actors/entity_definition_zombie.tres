@@ -33,7 +33,7 @@ metadata/_custom_type_script = "uid://dl14xrr7tpkho"
 [sub_resource type="Resource" id="Resource_a5xe8"]
 script = ExtResource("2_6wx6o")
 max_hp = 10
-power = 1
+power = 3
 defense = 1
 death_texture = ExtResource("1_pfa2g")
 death_color = Color(1, 1, 1, 1)

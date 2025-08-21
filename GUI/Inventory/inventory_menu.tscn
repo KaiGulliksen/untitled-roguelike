@@ -74,13 +74,19 @@ text = "Inventory"
 label_settings = SubResource("LabelSettings_dcq6d")
 horizontal_alignment = 1
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
+[node name="InventoryItemLabel" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="QuantityLabel" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
 layout_mode = 2
 
 [node name="InventoryList" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/InventoryContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer"]
