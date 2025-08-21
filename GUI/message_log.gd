@@ -25,3 +25,5 @@ func add_message(text: String, color: Color) -> void:
 		message_list.add_child(message)
 		await get_tree().process_frame
 		ensure_control_visible(message)
+		# Force scroll to bottom for new messages
+		scroll_vertical = get_v_scroll_bar().max_value

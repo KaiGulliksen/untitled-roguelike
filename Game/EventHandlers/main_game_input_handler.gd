@@ -53,44 +53,17 @@ func get_action(player: Entity) -> Action:
 	
 	return action
 
-#func get_item(window_title: String, inventory: InventoryComponent, evaluate_for_next_step: bool = false) -> Entity:
-	#var inventory_menu: InventoryMenu = inventory_menu_scene.instantiate()
-	#add_child(inventory_menu)
-	#inventory_menu.build(window_title, inventory)
-	#get_parent().transition_to(InputHandler.InputHandlers.DUMMY)
-	#var selected_item: Entity = await inventory_menu.item_selected
-	#if not evaluate_for_next_step or (selected_item and selected_item.consumable_component and selected_item.consumable_component.get_targeting_radius() == -1):
-		#await get_tree().physics_frame
-		#get_parent().call_deferred("transition_to", InputHandler.InputHandlers.MAIN_GAME)
-	#return selected_item
-
-#func activate_item(player: Entity) -> Action:
-	#var selected_item: Entity = await get_item("Select an item to use", player.inventory_component, true)
-	#if selected_item == null:
-		#return null
-	#var target_radius: int = -1
-	#if selected_item.consumable_component != null:
-		#target_radius = selected_item.consumable_component.get_targeting_radius()
-	#if target_radius == -1:
-		#return ItemAction.new(player, selected_item)
-	#var target_position: Vector2i = await get_grid_position(player, target_radius)
-	#if target_position == Vector2i(-1, -1):
-		#return null
-	#return ItemAction.new(player, selected_item, target_position)
-	
-
-#func get_grid_position(player: Entity, radius: int) -> Vector2i:
-	#get_parent().transition_to(InputHandler.InputHandlers.DUMMY)
-	#var selected_position: Vector2i = await reticle.select_position(player, radius)
-	#await get_tree().physics_frame
-	#get_parent().call_deferred("transition_to", InputHandler.InputHandlers.MAIN_GAME)
-	#return selected_position
-
 func show_inventory(player: Entity) -> void:
 	var inventory_menu: InventoryMenu = inventory_menu_scene.instantiate()
 	var ui_layer = get_viewport()
 	ui_layer.add_child(inventory_menu)
 	inventory_menu.build("Inventory", player.inventory_component)
+	
+	# Connect the item_used signal to handle item consumption
+	inventory_menu.item_used.connect(_on_inventory_item_used.bind(player))
+	
+	# Connect the item_dropped signal to handle item dropping
+	inventory_menu.item_dropped.connect(_on_inventory_item_dropped.bind(player))
 	
 	# Transition to dummy handler while menu is open
 	get_parent().transition_to(InputHandler.InputHandlers.DUMMY)
@@ -103,3 +76,25 @@ func show_inventory(player: Entity) -> void:
 	
 	# Return to main game handler
 	get_parent().call_deferred("transition_to", InputHandler.InputHandlers.MAIN_GAME)
+
+func _on_inventory_item_used(item: Entity, player: Entity) -> void:
+	# Create the item action and perform it
+	var action = ItemAction.new(player, item)
+	if action.perform():
+		# Remove the item from inventory if it was consumed
+		player.inventory_component.items.erase(item)
+		# Get the game node properly and trigger enemy turns
+		var game = player.get_tree().get_root().get_node("InterfaceRoot/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game")
+		if game and game.has_method("_handle_enemy_turns"):
+			game._handle_enemy_turns()
+
+func _on_inventory_item_dropped(item: Entity, player: Entity) -> void:
+	# Create drop action and perform it
+	var action = DropItemAction.new(player, item)
+	if action.perform():
+		# The drop action already handles removing from inventory
+		# Get the game node properly and trigger enemy turns
+		var game = player.get_tree().get_root().get_node("InterfaceRoot/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game")
+		if game and game.has_method("_handle_enemy_turns"):
+			game._handle_enemy_turns()
+		
