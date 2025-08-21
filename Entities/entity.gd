@@ -53,9 +53,9 @@ func set_entity_type(entity_definition: EntityDefinition) -> void:
 		fighter_component = FighterComponent.new(entity_definition.fighter_definition)
 		add_child(fighter_component)
 		
-	if entity_definition.consumable_definition:
-		if entity_definition.consumable_definition is HealingConsumableComponentDefinition:
-			consumable_component = HealingConsumableComponent.new(entity_definition.consumable_definition)
+	if entity_definition.item_definition:
+		if entity_definition.item_definition is HealingConsumableComponentDefinition:
+			consumable_component = HealingConsumableComponent.new(entity_definition.item_definition)
 			add_child(consumable_component)
 	
 	if entity_definition.inventory_capacity > 0:

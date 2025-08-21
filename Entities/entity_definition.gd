@@ -13,7 +13,7 @@ extends Resource
 @export_category("Components")
 @export var fighter_definition: FighterComponentDefinition
 @export var ai_type: Entity.AIType
-@export var consumable_definition: ConsumableComponentDefinition
+@export var item_definition: ItemComponentDefinition
 @export var currency_definition: CurrencyComponentDefinition
 @export var inventory_capacity: int = 0
 
