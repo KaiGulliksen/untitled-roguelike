@@ -15,6 +15,7 @@ var inventory_component: InventoryComponent
 var item_slots: Array = [] # Array of slots for navigation
 var selected_index: int = 0
 var items_array: Array[Entity] = [] # Keep track of items in order
+var should_close_after_action: bool = false
 
 func _ready() -> void:
 	pass
@@ -129,9 +130,26 @@ func _on_slot_hover(slot: PanelContainer, is_hovering: bool) -> void:
 	else:
 		slot.modulate = Color.WHITE
 
-#func _on_close_pressed() -> void:
-	#menu_closed.emit()
-	#queue_free()
+func close_menu() -> void:
+	menu_closed.emit()
+	queue_free()
+
+func use_item_and_close(item: Entity) -> void:
+	if item.consumable_component:
+		should_close_after_action = true
+		item_used.emit(item)
+		# Delay closing to allow the action to complete
+		await get_tree().create_timer(0.1).timeout
+		close_menu()
+	else:
+		MessageLog.send_message("You can't use the %s." % item.get_entity_name(), GameColors.IMPOSSIBLE)
+
+func drop_item_and_close(item: Entity) -> void:
+	should_close_after_action = true
+	item_dropped.emit(item)
+	# Delay closing to allow the action to complete
+	await get_tree().create_timer(0.1).timeout
+	close_menu()
 
 func _input(event: InputEvent) -> void:
 	# Handle navigation with direction keys
@@ -150,17 +168,14 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("activate"):
 		if selected_index < items_array.size():
 			var item = items_array[selected_index]
-			if item.consumable_component:
-				item_used.emit(item)
-			else:
-				MessageLog.send_message("You can't use the %s." % item.get_entity_name(), GameColors.IMPOSSIBLE)
+			use_item_and_close(item)
 		get_viewport().set_input_as_handled()
 	
 	# Handle item dropping with "drop" key
 	elif event.is_action_pressed("drop"):
 		if selected_index < items_array.size():
 			var item = items_array[selected_index]
-			item_dropped.emit(item)
+			drop_item_and_close(item)
 		get_viewport().set_input_as_handled()
 
 	elif event is InputEventKey and event.pressed:
@@ -173,19 +188,15 @@ func _input(event: InputEvent) -> void:
 				_update_selection()
 				# Immediately use the item
 				var item = items_array[index]
-				if item.consumable_component:
-					item_used.emit(item)
-				else:
-					MessageLog.send_message("You can't use the %s." % item.get_entity_name(), GameColors.IMPOSSIBLE)
+				use_item_and_close(item)
 			get_viewport().set_input_as_handled()
 
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("ui_back") or Input.is_action_just_pressed("inventory"):
-		item_selected.emit(null)
-		menu_closed.emit()
-		queue_free()
+	if not should_close_after_action:
+		if Input.is_action_just_pressed("ui_back") or Input.is_action_just_pressed("inventory"):
+			item_selected.emit(null)
+			close_menu()
 
 func button_pressed(item: Entity = null) -> void:
 	item_selected.emit(item)
-	menu_closed.emit()
-	queue_free()
+	close_menu()

@@ -83,6 +83,8 @@ func _on_inventory_item_used(item: Entity, player: Entity) -> void:
 	if action.perform():
 		# Remove the item from inventory if it was consumed
 		player.inventory_component.items.erase(item)
+		# Small delay to ensure message is processed
+		await get_tree().create_timer(0.05).timeout
 		# Get the game node properly and trigger enemy turns
 		var game = player.get_tree().get_root().get_node("InterfaceRoot/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game")
 		if game and game.has_method("_handle_enemy_turns"):
