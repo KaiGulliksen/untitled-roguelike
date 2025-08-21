@@ -7,6 +7,7 @@
 [sub_resource type="Resource" id="Resource_d80gr"]
 script = ExtResource("1_r4q4a")
 healing_amount = 8
+weight = 0.1
 metadata/_custom_type_script = "uid://bfhm172pog6rd"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ll6r"]
