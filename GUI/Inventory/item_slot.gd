@@ -16,7 +16,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	
 	# Optional: Add visual feedback styles
-	_setup_styles()
+	#_setup_styles()
 
 func setup(item: Entity, quantity: int, index: int) -> void:
 	self.item = item

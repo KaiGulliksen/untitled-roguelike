@@ -17,5 +17,6 @@ extends Resource
 @export var currency_definition: CurrencyComponentDefinition
 @export var inventory_capacity: int = 0
 
+
 @export_category("Drops")
 @export var drop_table: DropTable

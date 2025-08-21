@@ -1,10 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://kgpxe36tf0ht"]
+[gd_scene load_steps=5 format=3 uid="uid://kgpxe36tf0ht"]
 
 [ext_resource type="Script" uid="uid://clxtd48pp55ve" path="res://GUI/Inventory/item_slot.gd" id="1_fnkmr"]
+[ext_resource type="FontFile" uid="uid://ddpwgy7xygfwx" path="res://Assets/Fonts/SourceCodePro-Regular.ttf" id="2_x7dut"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1ya77"]
+font = ExtResource("2_x7dut")
+
+[sub_resource type="LabelSettings" id="LabelSettings_qothb"]
+font = ExtResource("2_x7dut")
 
 [node name="ItemSlot" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 40)
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 3
 script = ExtResource("1_fnkmr")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -13,7 +22,11 @@ layout_mode = 2
 [node name="ItemNameLabel" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+label_settings = SubResource("LabelSettings_1ya77")
+vertical_alignment = 1
 
 [node name="ItemQuantLabel" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+label_settings = SubResource("LabelSettings_qothb")
+vertical_alignment = 1
