@@ -1208,7 +1208,6 @@ message_log_path = NodePath("../../../../../../MessagesPanel/MessageLog")
 script = ExtResource("5_glinl")
 
 [node name="Hub" type="Node2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game"]
-z_as_relative = false
 script = ExtResource("7_qlwvw")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game/Hub"]

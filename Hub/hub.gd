@@ -53,6 +53,7 @@ func new(player: Entity) -> void:
 	
 	# Initial FOV update
 	update_fov(player.grid_position)
+	
 
 
 func _load_tiles_from_tilemap() -> void:
