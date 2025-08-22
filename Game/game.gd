@@ -22,6 +22,7 @@ func _ready() -> void:
 	player_created.emit(player)
 	remove_child(camera)
 	player.add_child(camera)
+	map.update_fov(player.grid_position)
 	
 	# Start in hub
 	_enter_hub()
@@ -67,6 +68,7 @@ func _enter_dungeon() -> void:
 		"You enter the dangerous dungeon!",
 		GameColors.WELCOME_TEXT
 	).call_deferred()
+	camera.make_current.call_deferred()
 
 func _physics_process(_delta: float) -> void:
 	var action: Action = await input_handler.get_action(player)

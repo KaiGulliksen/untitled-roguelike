@@ -13,7 +13,7 @@ const directions = {
 
 const inventory_menu_scene = preload("res://GUI/Inventory/inventory_menu.tscn")
 
-#@export var reticle: Reticle
+@export var reticle: Reticle
 
 func get_action(player: Entity) -> Action:
 	var action: Action = null
@@ -29,8 +29,8 @@ func get_action(player: Entity) -> Action:
 	if Input.is_action_just_pressed("wait_heal"):
 		action = WaitHealAction.new(player)
 	
-	#if Input.is_action_just_pressed("look"):
-		#await get_grid_position(player, 0)
+	if Input.is_action_just_pressed("look"):
+		await get_grid_position(player, 0)
 		
 	if Input.is_action_just_pressed("decend"):
 		action = EnterPortalAction.new(player)
@@ -99,4 +99,12 @@ func _on_inventory_item_dropped(item: Entity, player: Entity) -> void:
 		var game = player.get_tree().get_root().get_node("InterfaceRoot/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game")
 		if game and game.has_method("_handle_enemy_turns"):
 			game._handle_enemy_turns()
+
+
 		
+func get_grid_position(player: Entity, radius: int) -> Vector2i:
+	get_parent().transition_to(InputHandler.InputHandlers.DUMMY)
+	var selected_position: Vector2i = await reticle.select_position(player, radius)
+	await get_tree().physics_frame
+	get_parent().call_deferred("transition_to", InputHandler.InputHandlers.MAIN_GAME)
+	return selected_position

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://dv60p3q8pfimg"]
+[gd_scene load_steps=23 format=4 uid="uid://dv60p3q8pfimg"]
 
 [ext_resource type="Script" uid="uid://cjrk8fj8cm76w" path="res://Game/game.gd" id="1_bk3v5"]
 [ext_resource type="Script" uid="uid://cfcqjm46qb4yg" path="res://Map/map.gd" id="2_7raqb"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dgfoye5ul42n1" path="res://Assets/colored_packed.png" id="8_rpdke"]
 [ext_resource type="Script" uid="uid://odkwr00s8p2p" path="res://GUI/hp_display.gd" id="11_glinl"]
 [ext_resource type="FontFile" uid="uid://ddpwgy7xygfwx" path="res://Assets/Fonts/SourceCodePro-Regular.ttf" id="12_72g0p"]
+[ext_resource type="PackedScene" uid="uid://bn147sivworox" path="res://GUI/Reticle/reticle.tscn" id="12_rpdke"]
 [ext_resource type="Texture2D" uid="uid://dlcwn1idljktk" path="res://Assets/URLTileSet.png" id="15_rpdke"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_33n3b"]
@@ -1182,7 +1183,7 @@ stretch = true
 disable_3d = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(2, 2)
+size = Vector2i(1197, 766)
 render_target_update_mode = 4
 
 [node name="Game" type="Node2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport"]
@@ -1225,8 +1226,11 @@ script = ExtResource("4_fwxkx")
 
 [node name="Entities" type="Node2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game/Map"]
 
+[node name="Reticle" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game/Map" instance=ExtResource("12_rpdke")]
+
 [node name="Camera2D" type="Camera2D" parent="VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Game"]
 zoom = Vector2(2, 2)
+process_callback = 0
 
 [node name="InfoBar" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
