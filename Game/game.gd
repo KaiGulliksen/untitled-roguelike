@@ -4,7 +4,6 @@ extends Node2D
 signal player_created(player)
 
 const player_definition: EntityDefinition = preload("res://Assets/Definitions/Actors/entity_definition_player.tres")
-const tile_size = 16
 
 enum GameState { HUB, DUNGEON }
 
@@ -15,91 +14,88 @@ enum GameState { HUB, DUNGEON }
 @onready var camera: Camera2D = $Camera2D
 
 var current_state: GameState = GameState.HUB
-var current_location  # Will be either hub or map
+var current_area: GameArea  # Now using the base class type
 
 func _ready() -> void:
 	player = Entity.new(null, Vector2i.ZERO, player_definition)
 	player_created.emit(player)
+	
+	# Move camera to player
 	remove_child(camera)
 	player.add_child(camera)
-	map.update_fov(player.grid_position)
 	
-	# Start in hub
 	_enter_hub()
 	
-	MessageLog.send_message.bind(
+	MessageLog.send_message(
 		"Hello, adventurer. Welcome to the Hub!",
 		GameColors.WELCOME_TEXT
-	).call_deferred()
+	)
 	camera.make_current.call_deferred()
-
 	SignalBus.enter_portal.connect(_enter_dungeon)
 
 func _enter_hub() -> void:
 	current_state = GameState.HUB
-	current_location = hub
+	_transition_to_area(hub)
 	
-	# Hide map, show hub
-	map.visible = false
-	hub.visible = true
-	
-	# Initialize hub with player
-	hub.new(player)
+	MessageLog.send_message(
+		"You return to the safety of the Hub.",
+		GameColors.WELCOME_TEXT
+	)
 
 func _enter_dungeon() -> void:
 	if current_state == GameState.DUNGEON:
-		return  # Already in the dungeon
-
+		return
+		
 	current_state = GameState.DUNGEON
-	current_location = map
-
-	hub.visible = false
-	map.visible = true
-
-	# Ensure player has a valid parent before removing
-	if player.get_parent():
-		player.get_parent().remove_child(player)
+	_transition_to_area(map)
 	
-	map.add_child(player)
+	# Map needs special generation logic
 	map.generate(player)
-	map.update_fov(player.grid_position)
-
-	MessageLog.send_message.bind(
+	
+	MessageLog.send_message(
 		"You enter the dangerous dungeon!",
 		GameColors.WELCOME_TEXT
-	).call_deferred()
+	)
+
+# Unified transition method - works for any GameArea
+func _transition_to_area(new_area: GameArea) -> void:
+	# Hide current area
+	if current_area:
+		current_area.visible = false
+		current_area.cleanup_area()
+		
+		# Remove player from current area
+		if player.get_parent() and player.get_parent() != self:
+			current_area.remove_entity(player)
+	
+	# Show and setup new area
+	current_area = new_area
+	current_area.visible = true
+	current_area.setup_area(player)
+	current_area.update_fov(player.grid_position)
+	
+	# Make camera current after transition
 	camera.make_current.call_deferred()
 
 func _physics_process(_delta: float) -> void:
 	var action: Action = await input_handler.get_action(player)
 	if action:
-		var previous_player_position: Vector2i = player.grid_position
 		if action.perform():
 			_handle_enemy_turns()
-			
-			# Update FOV based on current location
-			if current_state == GameState.HUB:
-				hub.update_fov(player.grid_position)
-			else:
-				map.update_fov(player.grid_position)
+			current_area.update_fov(player.grid_position)
 
 func _handle_enemy_turns() -> void:
-	# Iterate over a copy, as the entities array might change during a turn.
-	for entity in get_map_data().entities.duplicate():
-		# The is_alive() check is all we need.
+	# Works with any GameArea now
+	for entity in current_area.map_data.entities.duplicate():
 		if entity and entity != player and entity.is_alive():
 			entity.ai_component.perform()
 
 func get_map_data() -> MapData:
-	if current_state == GameState.HUB:
-		return hub.map_data
-	else:
-		return map.map_data
+	return current_area.map_data if current_area else null
 
-# Call this method to transition from hub to dungeon
+# Simplified transition methods
 func start_dungeon() -> void:
 	_enter_dungeon()
 
-# Call this method to return to hub
 func return_to_hub() -> void:
 	_enter_hub()
