@@ -3,11 +3,7 @@ extends RefCounted
 
 signal entity_placed(entity)
 
-const tile_types = {
-	"floor": preload("res://Assets/Definitions/Tiles/tile_definition_floor.tres"),
-	"wall": preload("res://Assets/Definitions/Tiles/tile_definition_wall.tres"),
-	"portal": preload("res://Assets/Definitions/Tiles/tile_definition_portal.tres"),
-	}
+
 
 const entity_pathfinding_weight = 10.0
 
@@ -33,7 +29,7 @@ func _setup_tiles() -> void:
 	for y in height:
 		for x in width:
 			var tile_position := Vector2i(x, y)
-			var tile := Tile.new(tile_position, tile_types.wall)
+			var tile := Tile.new(tile_position, 0)
 			tiles.append(tile)
 
 
