@@ -1,10 +1,10 @@
 class_name DungeonGenerator
 extends Node
 
-const entity_types = {
-	# Add your entity types here
-	"zombie": preload("res://Assets/Definitions/Actors/entity_definition_zombie.tres"),
-}
+#const entity_types = {
+	## Add your entity types here
+	#"zombie": preload("res://Assets/Definitions/Actors/entity_definition_zombie.tres"),
+#}
 
 @export_category("Map Dimentions")
 @export var map_width: int = 90
@@ -99,7 +99,8 @@ func _place_entities(dungeon: MapData, room: Rect2i) -> void:
 		
 		if can_place:
 			if _rng.randf() < 0.5:
-				var new_entity = Entity.new(dungeon, new_entity_position, entity_types.zombie)
+				var zombie_def: EntityDefinition = EntityDB.actor_definitions[EntityDB.Actors.ZOMBIE]
+				var new_entity = Entity.new(dungeon, new_entity_position, zombie_def)
 				dungeon.entities.append(new_entity)
 
 	# Place Items

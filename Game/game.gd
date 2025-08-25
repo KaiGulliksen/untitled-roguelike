@@ -3,7 +3,7 @@ extends Node2D
 
 signal player_created(player)
 
-const player_definition: EntityDefinition = preload("res://Assets/Definitions/Actors/entity_definition_player.tres")
+#const player_definition: EntityDefinition = preload("res://Assets/Definitions/Actors/entity_definition_player.tres")
 
 enum GameState { HUB, DUNGEON }
 
@@ -13,11 +13,12 @@ enum GameState { HUB, DUNGEON }
 @onready var hub: Hub = $Hub
 @onready var camera: Camera2D = $Camera2D
 
+var player_def: EntityDefinition = EntityDB.actor_definitions[EntityDB.Actors.PLAYER]
 var current_state: GameState = GameState.HUB
 var current_area: GameArea  # Now using the base class type
 
-func _ready() -> void:
-	player = Entity.new(null, Vector2i.ZERO, player_definition)
+func _ready() -> void:	
+	player = Entity.new(null, Vector2i.ZERO, player_def)
 	player_created.emit(player)
 	
 	# Move camera to player
