@@ -1,12 +1,12 @@
 extends Node
 
-# Enum for player and monsters
+# Enum for player character and monsters
 enum Actors {
 	PLAYER,
 	ZOMBIE,
 }
 
-# Enum for consumable items
+# Enum for consumable and other items
 enum Items {
 	STIMPAK,
 	CREDITS,
