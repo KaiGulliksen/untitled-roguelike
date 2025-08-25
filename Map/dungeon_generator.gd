@@ -30,7 +30,7 @@ func _carve_tile(dungeon: MapData, x: int, y: int) -> void:
 		
 	var tile: Tile = dungeon.get_tile(tile_position)
 	if tile:
-		tile.set_tile_type(dungeon.tile_types.floor)
+		tile.set_tile_type(Tile.TileType.FLOOR1)
 
 func generate_dungeon(player: Entity) -> MapData:
 	var dungeon := MapData.new(map_width, map_height, player)

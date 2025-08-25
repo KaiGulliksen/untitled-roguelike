@@ -42,9 +42,9 @@ func _load_tiles_from_tilemap() -> void:
 				
 				# Set the correct tile type based on tilemap data
 				if is_portal:
-					map_tile.set_tile_type(map_data.tile_types.portal)
+					map_tile.set_tile_type(Tile.TileType.PORTAL1)
 				elif is_walkable or tile_type == "floor":
-					map_tile.set_tile_type(map_data.tile_types.floor)
+					map_tile.set_tile_type(Tile.TileType.FLOOR1)
 				# else keep as wall (default)
 			
 			# Hide the tilemap tile since we're using our own Tile objects

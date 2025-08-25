@@ -17,7 +17,7 @@ const tile_types = {
 
 
 var _definition: TileDefinition
-var TileKey: TileType
+var tile_key: TileType
 
 var is_explored: bool = false:
 	set(value):
@@ -32,15 +32,15 @@ var is_in_view: bool = false:
 		if is_in_view and not is_explored:
 			is_explored = true
 
-func _init(grid_position: Vector2i, tile_definition: TileDefinition) -> void:
+func _init(grid_position: Vector2i, p_tile_key: TileType) -> void:
 	visible = false
 	centered = false
 	position = Grid.grid_to_world(grid_position)
-	set_tile_type(TileKey)
+	set_tile_type(p_tile_key)
 	
-func set_tile_type(TileKey: TileType) -> void:
-	self.TileKey = TileKey
-	_definition = tile_types[TileKey]
+func set_tile_type(p_tile_key: TileType) -> void:
+	self.tile_key = p_tile_key
+	_definition = tile_types[p_tile_key]
 	texture = _definition.texture
 	modulate = _definition.color_dark
 
