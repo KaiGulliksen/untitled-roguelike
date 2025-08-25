@@ -26,7 +26,7 @@ func _setup_tiles() -> void:
 	for y in height:
 		for x in width:
 			var tile_position := Vector2i(x, y)
-			var tile := Tile.new(tile_position, Tile.TileType.WALL1)
+			var tile := Tile.new(tile_position, TileDatabase.TileType.WALL1)
 			tiles.append(tile)
 
 
