@@ -1,7 +1,23 @@
 class_name Tile
 extends Sprite2D
 
+
+enum TileType {
+	FLOOR1,
+	WALL1,
+	PORTAL1,
+}
+
+
+const tile_types = {
+	TileType.FLOOR1: preload("res://Assets/Definitions/Tiles/tile_definition_floor.tres"),
+	TileType.WALL1: preload("res://Assets/Definitions/Tiles/tile_definition_wall.tres"),
+	TileType.PORTAL1: preload("res://Assets/Definitions/Tiles/tile_definition_portal.tres"),
+	}
+
+
 var _definition: TileDefinition
+var TileKey: TileType
 
 var is_explored: bool = false:
 	set(value):
@@ -20,10 +36,11 @@ func _init(grid_position: Vector2i, tile_definition: TileDefinition) -> void:
 	visible = false
 	centered = false
 	position = Grid.grid_to_world(grid_position)
-	set_tile_type(tile_definition)
+	set_tile_type(TileKey)
 	
-func set_tile_type(tile_definition: TileDefinition) -> void:
-	_definition = tile_definition
+func set_tile_type(TileKey: TileType) -> void:
+	self.TileKey = TileKey
+	_definition = tile_types[TileKey]
 	texture = _definition.texture
 	modulate = _definition.color_dark
 
