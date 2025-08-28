@@ -1,5 +1,9 @@
 extends Node
 
+# Enums for different entity properties (MOVED FROM entity.gd)
+enum AIType {NONE, HOSTILE}
+enum EntityType {CORPSE, ITEM, ACTOR}
+
 # Enum for player character and monsters
 enum Actors {
 	PLAYER,

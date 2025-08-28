@@ -124,6 +124,7 @@ func get_save_data() -> Dictionary:
 		save_data["tiles"].append(tile.get_save_data())
 	return save_data
 
+# ...
 func restore(save_data: Dictionary) -> void:
 	width = save_data["width"]
 	height = save_data["height"]
@@ -135,9 +136,10 @@ func restore(save_data: Dictionary) -> void:
 	player.map_data = self
 	entities = [player]
 	for entity_data in save_data["entities"]:
-		var new_entity := Entity.new(self, Vector2i.ZERO, EntityDefinition)
-		new_entity.restore(entity_data)
+		var new_entity := Entity.new(self, Vector2i.ZERO) # Creates an empty entity
+		new_entity.restore(entity_data) # Restore fills it with data
 		entities.append(new_entity)
+# ...
 
 
 func save() -> void:

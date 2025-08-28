@@ -72,7 +72,7 @@ func die(log_message := true) -> void:
 	entity.ai_component = null
 	entity.entity_name = "Remains of %s" % entity.entity_name
 	entity.blocks_movement = false
-	entity.type = Entity.EntityType.CORPSE
+	entity.type = EntityDB.Entity.EntityType.CORPSE
 	get_map_data().unregister_blocking_entity(entity)
 
 func _handle_drops() -> void:

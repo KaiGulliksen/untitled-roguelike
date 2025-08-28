@@ -26,11 +26,12 @@ var grid_position: Vector2i:
 		grid_position = value
 		position = Grid.grid_to_world(grid_position)
 		
-func _init(map_data: MapData, start_position: Vector2i, entity_definition: EntityDefinition) -> void:
+func _init(map_data: MapData, start_position: Vector2i, entity_definition: EntityDefinition = null) -> void:
 	centered = false
 	grid_position = start_position
 	self.map_data = map_data
-	set_entity_type(entity_definition)
+	if entity_definition:
+		set_entity_type(entity_definition)
 	
 func move(move_offset: Vector2i) -> void:
 	map_data.unregister_blocking_entity(self)
@@ -39,14 +40,14 @@ func move(move_offset: Vector2i) -> void:
 
 func set_entity_type(entity_definition: EntityDefinition) -> void:
 	_definition = entity_definition
-	type = _definition.type
+	#type = _definition.type
 	blocks_movement = _definition.is_blocking_movement
 	entity_name = _definition.name
 	texture = entity_definition.texture
 	modulate = entity_definition.color
 	
 	match entity_definition.ai_type:
-		AIType.HOSTILE:
+		EntityDB.AIType.HOSTILE:
 			ai_component = HostileEnemyAIComponent.new()
 			add_child(ai_component)
 			
@@ -96,7 +97,15 @@ func get_save_data() -> Dictionary:
 
 func restore(save_data: Dictionary) -> void:
 	grid_position = Vector2i(save_data["x"], save_data["y"])
-	set_entity_type(save_data["key"])
+	
+	var entity_key = save_data["key"]
+	var entity_definition = EntityDB.actor_definitions.get(entity_key)
+	if not entity_definition:
+		entity_definition = EntityDB.item_definitions.get(entity_key)
+
+	if entity_definition:
+		set_entity_type(entity_definition)
+	
 	if fighter_component and save_data.has("fighter_component"):
 		fighter_component.restore(save_data["fighter_component"])
 	if ai_component and save_data.has("ai_component"):
