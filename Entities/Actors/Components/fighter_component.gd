@@ -11,7 +11,11 @@ var hp: int:
 		hp = clampi(value, 0, max_hp)
 		hp_changed.emit(hp, max_hp)
 		if hp <= 0:
-			die()
+			var die_silently := false
+			if not is_inside_tree():
+				die_silently = true
+				await ready
+			die(not die_silently)
 var defense: int
 var power: int
 
@@ -44,7 +48,7 @@ func take_damage(amount: int) -> void:
 	hp -= amount
 
 
-func die() -> void:
+func die(log_message := true) -> void:
 	var death_message: String
 	var death_message_color: Color
 	
@@ -57,6 +61,9 @@ func die() -> void:
 		death_message_color = GameColors.ENEMY_DIE
 		# Handle item drops
 		_handle_drops()
+		
+	if log_message:
+		MessageLog.send_message(death_message, death_message_color)
 	
 	MessageLog.send_message(death_message, death_message_color)
 	entity.texture = death_texture
@@ -87,3 +94,19 @@ func _handle_drops() -> void:
 		
 		var item_message = "%s dropped %s!" % [entity.get_entity_name(), item_definition.name]
 		MessageLog.send_message(item_message, Color.YELLOW)
+
+
+func get_save_data() -> Dictionary:
+	return {
+		"max_hp": max_hp,
+		"hp": hp,
+		"power": power,
+		"defense": defense
+	}
+
+
+func restore(save_data: Dictionary) -> void:
+	max_hp = save_data["max_hp"]
+	hp = save_data["hp"]
+	power = save_data["power"]
+	defense = save_data["defense"]

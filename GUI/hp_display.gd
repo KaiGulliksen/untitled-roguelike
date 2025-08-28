@@ -11,7 +11,8 @@ func player_hp_changed(hp: int, max_hp: int) -> void:
 	hp_label.text = "HP: %d/%d" % [hp, max_hp]
 	
 func initialize(player: Entity) -> void:
-	await ready
+	if not is_inside_tree():
+		await ready
 	player.fighter_component.hp_changed.connect(player_hp_changed)
 	var player_hp: int = player.fighter_component.hp
 	var player_max_hp: int = player.fighter_component.max_hp

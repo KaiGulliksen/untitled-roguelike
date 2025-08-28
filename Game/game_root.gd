@@ -12,3 +12,11 @@ func _ready() -> void:
 
 func _on_escape_requested() -> void:
 	main_menu_requested.emit()
+
+func new_game() -> void:
+	game.new_game()
+
+
+func load_game() -> void:
+	if not game.load_game():
+		main_menu_requested.emit()

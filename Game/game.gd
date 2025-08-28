@@ -17,7 +17,7 @@ var player_def: EntityDefinition = EntityDB.actor_definitions[EntityDB.Actors.PL
 var current_state: GameState = GameState.HUB
 var current_area: GameArea  # Now using the base class type
 
-func _ready() -> void:	
+func new_game() -> void:	
 	player = Entity.new(null, Vector2i.ZERO, player_def)
 	player_created.emit(player)
 	
@@ -33,6 +33,21 @@ func _ready() -> void:
 	)
 	camera.make_current.call_deferred()
 	SignalBus.enter_portal.connect(_enter_dungeon)
+
+func load_game() -> bool:
+	player = Entity.new(null, Vector2i.ZERO, "")
+	remove_child(camera)
+	player.add_child(camera)
+	if not map.load_game(player):
+		return false
+	player_created.emit(player)
+	map.update_fov(player.grid_position)
+	MessageLog.send_message.bind(
+		"Welcome back, adventurer!",
+		GameColors.WELCOME_TEXT
+	).call_deferred()
+	camera.make_current.call_deferred()
+	return true
 
 func _enter_hub() -> void:
 	current_state = GameState.HUB

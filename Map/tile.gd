@@ -41,3 +41,15 @@ func is_transparent() -> bool:
 	
 func is_portal() -> bool:
 	return _definition.is_portal
+
+
+func get_save_data() -> Dictionary:
+	return {
+		"key": tile_key,
+		"is_explored": is_explored,
+	}
+
+
+func restore(save_data: Dictionary) -> void:
+	set_tile_type(save_data["key"])
+	is_explored = save_data["is_explored"]

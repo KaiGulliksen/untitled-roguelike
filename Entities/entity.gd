@@ -19,6 +19,10 @@ var ai_component: BaseAIComponent
 var inventory_component: InventoryComponent
 var consumable_component: ConsumableComponent
 
+var actors_key: EntityDB.Actors
+var item_key: EntityDB.Items
+var equipment_key: EntityDB.Equipment
+
 
 var grid_position: Vector2i:
 	set(value):
@@ -76,3 +80,36 @@ func is_alive() -> bool:
 func distance(other_postition) -> int:
 	var relative: Vector2i = other_postition - grid_position
 	return maxi(abs(relative.x), abs(relative.y))
+
+
+
+func get_save_data() -> Dictionary:
+	var save_data: Dictionary = {
+		"x": grid_position.x,
+		"y": grid_position.y,
+		"actors_key": actors_key,
+		"item_key": item_key,
+		"equipment_key": equipment_key,
+	}
+	if fighter_component:
+		save_data["fighter_component"] = fighter_component.get_save_data()
+	if ai_component:
+		save_data["ai_component"] = ai_component.get_save_data()
+	if inventory_component:
+		save_data["inventory_component"] = inventory_component.get_save_data()
+	return save_data
+
+func restore(save_data: Dictionary) -> void:
+	grid_position = Vector2i(save_data["x"], save_data["y"])
+	set_entity_type(save_data["actors_key"])
+	set_entity_type(save_data["items_key"])
+	set_entity_type(save_data["equipment_key"])
+	if fighter_component and save_data.has("fighter_component"):
+		fighter_component.restore(save_data["fighter_component"])
+	if ai_component and save_data.has("ai_component"):
+		var ai_data: Dictionary = save_data["ai_component"]
+		#if ai_data["type"] == "ConfusedEnemyAI":
+			#var confused_enemy_ai := ConfusedEnemyAIComponent.new(ai_data["turns_remaining"])
+			#add_child(confused_enemy_ai)
+	if inventory_component and save_data.has("inventory_component"):
+		inventory_component.restore(save_data["inventory_component"])
