@@ -135,7 +135,7 @@ func restore(save_data: Dictionary) -> void:
 	player.map_data = self
 	entities = [player]
 	for entity_data in save_data["entities"]:
-		var new_entity := Entity.new(self, Vector2i.ZERO, null)
+		var new_entity := Entity.new(self, Vector2i.ZERO, EntityDefinition)
 		new_entity.restore(entity_data)
 		entities.append(new_entity)
 
