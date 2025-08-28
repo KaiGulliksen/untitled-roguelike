@@ -35,7 +35,7 @@ func new_game() -> void:
 	SignalBus.enter_portal.connect(_enter_dungeon)
 
 func load_game() -> bool:
-	player = Entity.new(null, Vector2i.ZERO, "")
+	player = Entity.new(null, Vector2i.ZERO, null)
 	remove_child(camera)
 	player.add_child(camera)
 	if not map.load_game(player):

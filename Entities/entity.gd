@@ -19,9 +19,6 @@ var ai_component: BaseAIComponent
 var inventory_component: InventoryComponent
 var consumable_component: ConsumableComponent
 
-var actors_key: EntityDB.Actors
-var item_key: EntityDB.Items
-var equipment_key: EntityDB.Equipment
 
 
 var grid_position: Vector2i:
@@ -87,9 +84,7 @@ func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {
 		"x": grid_position.x,
 		"y": grid_position.y,
-		"actors_key": actors_key,
-		"item_key": item_key,
-		"equipment_key": equipment_key,
+		"key": type,
 	}
 	if fighter_component:
 		save_data["fighter_component"] = fighter_component.get_save_data()
@@ -101,9 +96,7 @@ func get_save_data() -> Dictionary:
 
 func restore(save_data: Dictionary) -> void:
 	grid_position = Vector2i(save_data["x"], save_data["y"])
-	set_entity_type(save_data["actors_key"])
-	set_entity_type(save_data["items_key"])
-	set_entity_type(save_data["equipment_key"])
+	set_entity_type(save_data["key"])
 	if fighter_component and save_data.has("fighter_component"):
 		fighter_component.restore(save_data["fighter_component"])
 	if ai_component and save_data.has("ai_component"):
