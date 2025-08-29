@@ -13,12 +13,12 @@ enum GameState { HUB, DUNGEON }
 @onready var hub: Hub = $Hub
 @onready var camera: Camera2D = $Camera2D
 
-var player_def: EntityDefinition = EntityDB.actor_definitions[EntityDB.Actors.PLAYER]
+var player_def: EntityDefinition = EntityDB.entity_definitions[EntityDB.EntityType.PLAYER]
 var current_state: GameState = GameState.HUB
 var current_area: GameArea  # Now using the base class type
 
 func _ready() -> void:	
-	player = Entity.new(null, Vector2i.ZERO, player_def)
+	player = Entity.new(null, Vector2i.ZERO, EntityDB.EntityType.PLAYER)
 	player_created.emit(player)
 	
 	# Move camera to player

@@ -1,33 +1,17 @@
 extends Node
 
 # Enum for player character and monsters
-enum Actors {
+enum EntityType {
 	PLAYER,
 	ZOMBIE,
-}
-
-# Enum for consumable and other items
-enum Items {
 	STIMPAK,
 	CREDITS,
 }
 
-# Placeholder enum for future equipment
-enum Equipment {
-	# To be added later
-}
 
-
-const actor_definitions = {
-	Actors.PLAYER: preload("res://Assets/Definitions/Actors/entity_definition_player.tres"),
-	Actors.ZOMBIE: preload("res://Assets/Definitions/Actors/entity_definition_zombie.tres"),
-}
-
-const item_definitions = {
-	Items.STIMPAK: preload("res://Assets/Definitions/Items/stimpak_definition.tres"),
-	Items.CREDITS: preload("res://Assets/Definitions/Items/credits_definition.tres"),
-}
-
-const equipment_definitions = {
-	# To be added later
+const entity_definitions = {
+	EntityType.PLAYER: preload("res://Assets/Definitions/Actors/entity_definition_player.tres"),
+	EntityType.ZOMBIE: preload("res://Assets/Definitions/Actors/entity_definition_zombie.tres"),
+	EntityType.STIMPAK: preload("res://Assets/Definitions/Items/stimpak_definition.tres"),
+	EntityType.CREDITS: preload("res://Assets/Definitions/Items/credits_definition.tres"),
 }

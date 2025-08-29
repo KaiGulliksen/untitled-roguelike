@@ -99,8 +99,8 @@ func _place_entities(dungeon: MapData, room: Rect2i) -> void:
 		
 		if can_place:
 			if _rng.randf() < 0.5:
-				var zombie_def: EntityDefinition = EntityDB.actor_definitions[EntityDB.Actors.ZOMBIE]
-				var new_entity = Entity.new(dungeon, new_entity_position, zombie_def)
+				var zombie_def: EntityDefinition = EntityDB.entity_definitions[EntityDB.EntityType.ZOMBIE]
+				var new_entity = Entity.new(dungeon, new_entity_position, EntityDB.EntityType)
 				dungeon.entities.append(new_entity)
 
 	# Place Items

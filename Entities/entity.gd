@@ -13,6 +13,7 @@ var type: EntityType:
 		type = value
 		z_index = type
 var map_data: MapData
+var entity_key: EntityDB.EntityType
 
 var fighter_component: FighterComponent
 var ai_component: BaseAIComponent
@@ -25,19 +26,21 @@ var grid_position: Vector2i:
 		grid_position = value
 		position = Grid.grid_to_world(grid_position)
 		
-func _init(map_data: MapData, start_position: Vector2i, entity_definition: EntityDefinition) -> void:
+func _init(map_data: MapData, start_position: Vector2i, p_entity_key: EntityDB.EntityType) -> void:
 	centered = false
 	grid_position = start_position
 	self.map_data = map_data
-	set_entity_type(entity_definition)
+	set_entity_type(p_entity_key)
 	
 func move(move_offset: Vector2i) -> void:
 	map_data.unregister_blocking_entity(self)
 	grid_position += move_offset
 	map_data.register_blocking_entity(self)
 
-func set_entity_type(entity_definition: EntityDefinition) -> void:
-	_definition = entity_definition
+func set_entity_type(p_entity_key: EntityDB.EntityType) -> void:
+	self.entity_key = p_entity_key
+	var entity_definition: EntityDefinition
+	_definition = EntityDB.entity_definitions[p_entity_key]
 	type = _definition.type
 	blocks_movement = _definition.is_blocking_movement
 	entity_name = _definition.name
