@@ -2,9 +2,6 @@ class_name Entity
 extends Sprite2D
 
 
-#enum AIType {NONE, HOSTILE}
-#enum EntityType {CORPSE, ITEM, ACTOR}
-
 var _definition: EntityDefinition
 var entity_name: String
 var blocks_movement: bool

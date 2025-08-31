@@ -127,9 +127,10 @@ func get_save_data() -> Dictionary:
 	return save_data
 
 func save() -> void:
-	var file = FileAccess.open("user://save_game.dat", FileAccess.WRITE)
-	var save_data: Dictionary = get_save_data()
-	var save_string: String = JSON.stringify(save_data)
-	var save_hash: String = save_string.sha256_text()
-	file.store_line(save_hash)
-	file.store_line(save_string)
+	print("Saved!")
+	#var file = FileAccess.open("user://save_game.dat", FileAccess.WRITE)
+	#var save_data: Dictionary = get_save_data()
+	#var save_string: String = JSON.stringify(save_data)
+	#var save_hash: String = save_string.sha256_text()
+	#file.store_line(save_hash)
+	#file.store_line(save_string)
