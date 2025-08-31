@@ -50,6 +50,9 @@ func get_action(player: Entity) -> Action:
 	
 	if Input.is_action_just_pressed("quit"):
 		action = EscapeAction.new(player)
+		
+	if Input.is_action_just_pressed("save_game"):
+		pass
 	
 	return action
 
