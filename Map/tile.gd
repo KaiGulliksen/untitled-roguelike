@@ -21,15 +21,15 @@ var is_in_view: bool = false:
 		if is_in_view and not is_explored:
 			is_explored = true
 
-func _init(grid_position: Vector2i, p_tile_key: TileDB.TileType) -> void:
+func _init(grid_position: Vector2i, tile_key: TileDB.TileType) -> void:
 	visible = false
 	centered = false
 	position = Grid.grid_to_world(grid_position)
-	set_tile_type(p_tile_key)
+	set_tile_type(tile_key)
 	
-func set_tile_type(p_tile_key: TileDB.TileType) -> void:
-	self.tile_key = p_tile_key
-	_definition = TileDB.tile_types[p_tile_key]
+func set_tile_type(tile_key: TileDB.TileType) -> void:
+	self.tile_key = tile_key
+	_definition = TileDB.tile_types[tile_key]
 	texture = _definition.texture
 	modulate = _definition.color_dark
 

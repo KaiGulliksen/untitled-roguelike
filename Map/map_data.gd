@@ -106,3 +106,30 @@ func get_actor_at_location(location: Vector2i) -> Entity:
 		if actor.grid_position == location:
 			return actor
 	return null
+
+
+# Saving and loading
+
+func get_save_data() -> Dictionary:
+	var save_data := {
+		"width": width,
+		"height": height,
+		"player": player.get_save_data(),
+		"entities": [],
+		"tiles": []
+	}
+	for entity in entities:
+		if entity == player:
+			continue
+		save_data["entities"].append(entity.get_save_data())
+	for tile in tiles:
+		save_data["tiles"].append(tile.get_save_data())
+	return save_data
+
+func save() -> void:
+	var file = FileAccess.open("user://save_game.dat", FileAccess.WRITE)
+	var save_data: Dictionary = get_save_data()
+	var save_string: String = JSON.stringify(save_data)
+	var save_hash: String = save_string.sha256_text()
+	file.store_line(save_hash)
+	file.store_line(save_string)
