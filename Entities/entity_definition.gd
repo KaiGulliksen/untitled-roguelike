@@ -8,11 +8,11 @@ extends Resource
 
 @export_category("Mechanics")
 @export var is_blocking_movement: bool = true
-@export var type: Entity.EntityType = Entity.EntityType.ACTOR
+@export var type: EntityDB.EntityType = EntityDB.EntityType.ACTOR
 
 @export_category("Components")
 @export var fighter_definition: FighterComponentDefinition
-@export var ai_type: Entity.AIType
+@export var ai_type: EntityDB.AIType
 @export var item_definition: ItemComponentDefinition
 @export var currency_definition: CurrencyComponentDefinition
 @export var inventory_capacity: int = 0

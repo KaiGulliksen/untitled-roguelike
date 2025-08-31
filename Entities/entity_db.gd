@@ -1,5 +1,9 @@
 extends Node
 
+
+enum EntityType {CORPSE, ITEM, ACTOR}
+enum AIType {NONE, HOSTILE}
+
 # Enum for player character and monsters
 enum Actors {
 	PLAYER,

@@ -97,7 +97,7 @@ func get_actors() -> Array[Entity]:
 func get_items() -> Array[Entity]:
 	var items: Array[Entity] = []
 	for entity in entities:
-		if entity.type == Entity.EntityType.ITEM:
+		if entity.type == EntityDB.EntityType.ITEM:
 			items.append(entity)
 	return items
 

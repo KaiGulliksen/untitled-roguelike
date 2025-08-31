@@ -2,13 +2,13 @@ class_name Entity
 extends Sprite2D
 
 
-enum AIType {NONE, HOSTILE}
-enum EntityType {CORPSE, ITEM, ACTOR}
+#enum AIType {NONE, HOSTILE}
+#enum EntityType {CORPSE, ITEM, ACTOR}
 
 var _definition: EntityDefinition
 var entity_name: String
 var blocks_movement: bool
-var type: EntityType:
+var type: EntityDB.EntityType:
 	set(value):
 		type = value
 		z_index = type
@@ -45,7 +45,7 @@ func set_entity_type(entity_definition: EntityDefinition) -> void:
 	modulate = entity_definition.color
 	
 	match entity_definition.ai_type:
-		AIType.HOSTILE:
+		EntityDB.AIType.HOSTILE:
 			ai_component = HostileEnemyAIComponent.new()
 			add_child(ai_component)
 			
